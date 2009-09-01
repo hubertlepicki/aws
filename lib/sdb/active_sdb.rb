@@ -342,7 +342,11 @@ module RightAws
                     # flatten ids
                     args = args.to_a.flatten
                     args.each { |id| cond << "id=#{self.connection.escape(id)}" }
-                    ids_cond = "(#{cond.join(' OR ')})"
+                    if cond.size > 1
+                      ids_cond = "(#{cond.join(' OR ')})"
+                    else
+                      ids_cond = cond.first
+                    end
                     # user defined :conditions to string (if it was defined)
                     options[:conditions] = build_conditions(options[:conditions])
                     # join ids condition and user defined conditions
